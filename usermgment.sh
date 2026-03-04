@@ -44,15 +44,15 @@ read -p " Select action. " action
         echo " type name of user"
         useradd $homeuser 
     elif [[ "$action" == "3" ]]; then
-        echo " Delete user"
+        echo " You choose Delete user"
     elif [[ "$action" == "4" ]]; then
-        echo " Lock user"
+        echo " You choose Lock user"
     elif [[ "$action" == "5" ]]; then
         echo " Unlock user"
     elif [[ "$action" == "6" ]]; then
         echo " Change user password"
     elif [[ "$action" == "7" ]]; then
-        echo " Add to sudoers"
+        echo " Add user to sudoers"
     else
         echo " Please select only avaliable actions"
     fi
