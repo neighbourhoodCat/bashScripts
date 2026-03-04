@@ -65,3 +65,6 @@ while true; do
 
     sleep $INTERVAL
 done
+
+echo "Do the flex before leave"
+fastfetch
