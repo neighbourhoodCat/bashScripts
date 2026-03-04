@@ -50,7 +50,7 @@ read -p " Select action. " action
     elif [[ "$action" == "5" ]]; then
         echo " Unlock user"
     elif [[ "$action" == "6" ]]; then
-        echo " Change password"
+        echo " Change user password"
     elif [[ "$action" == "7" ]]; then
         echo " Add to sudoers"
     else
