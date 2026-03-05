@@ -1,5 +1,6 @@
 #!/bin/bash
-
+#nothing to update i just want the green dots in github
+#did nothing to day :(
 
 echo " Hello $USER"
 echo " This is User management menu V1.0"
