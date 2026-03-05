@@ -33,13 +33,15 @@ read -p " Select action. " action
                     echo " Type your custom id"
                     read -p " custom id " userid
                         if [[ "$userid" =~ ^[0-9]+$ ]]; then
-                        echo " Your custom uid is "$userid""
-                        customid="-G "$userid""
-                        else echo " Invalid input please input number only"
+                            echo " Your custom uid is "$userid""
+                            customid="-G "$userid""
                         fi
+                        else echo " Invalid input please input number only"
                 elif [[ "$customid" == "no" || "$customid" == "n" ]]; then
                     echo " You choose no"
                     customid=""
+                else echo " Please select only yes/no"
+                fi
         echo " You want to add to secondary groups?"
         echo " Select Shell for user"
         echo " type name of user"
