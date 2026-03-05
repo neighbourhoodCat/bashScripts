@@ -57,4 +57,5 @@ read -p " Select action. " action
         echo " Please select only avaliable actions"
     fi
     
-    
+    echo "Flex the OS!!"
+    fastfetch
