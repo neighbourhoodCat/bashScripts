@@ -3,13 +3,13 @@
 INTERVAL=5
 
 get_cpu_usage() {
-    read cpu user nice system idle iowait irq softirq steal guest < /proc/stat
+    read -r  user nice system idle iowait irq softirq steal  < /proc/stat
     total1=$((user + nice + system + idle + iowait + irq + softirq + steal))
     idle1=$((idle + iowait))
 
     sleep 1
 
-    read cpu user nice system idle iowait irq softirq steal guest < /proc/stat
+    read -r  user nice system idle iowait irq softirq steal  < /proc/stat
     total2=$((user + nice + system + idle + iowait + irq + softirq + steal))
     idle2=$((idle + iowait))
 
@@ -34,11 +34,11 @@ get_disk_usage() {
 
 get_network_usage() {
     iface=$(ip route | awk '/default/ {print $5}')
-    rx1=$(cat /sys/class/net/$iface/statistics/rx_bytes)
-    tx1=$(cat /sys/class/net/$iface/statistics/tx_bytes)
+    rx1=$(cat /sys/class/net/"$iface"/statistics/rx_bytes)
+    tx1=$(cat /sys/class/net/"$iface"/statistics/tx_bytes)
     sleep 1
-    rx2=$(cat /sys/class/net/$iface/statistics/rx_bytes)
-    tx2=$(cat /sys/class/net/$iface/statistics/tx_bytes)
+    rx2=$(cat /sys/class/net/"$iface"/statistics/rx_bytes)
+    tx2=$(cat /sys/class/net/"$iface"/statistics/tx_bytes)
 
     rx_rate=$(( (rx2 - rx1) / 1024 ))
     tx_rate=$(( (tx2 - tx1) / 1024 ))
