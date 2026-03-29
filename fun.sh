@@ -1,5 +1,5 @@
 #!/bin/bash
-
+#what the dog doing?
 echo " Hello $USER"
 echo " What you want to do ?"
 echo " 1. Shutdown OS"
