@@ -1,50 +1,53 @@
 #!/bin/bash
 #what the dog doing?
-echo " Hello $USER"
-echo " What you want to do ?"
-echo " 1. Shutdown OS"
-echo " 2. Reboot OS"
-echo " 3. OS release"
-echo " 4. Flex your OS!"
-echo " 5. Checking resource usage"
 
-read -p " Choose you option " option
-    if [ "$option" == 1 ]; then
-        echo " Are you sure?"
-        read -p " yes/no " confirm
-            if [[ "$confirm" == "yes" || "$confirm" == "y" ]]; then
-                echo " Type your password"
-                sudo systemctl poweroff
-            elif [[  "$confirm" == "no" || "$confirm" == "n" ]]; then
-                echo " You cancel the shutdown"
-            else
-                echo " Please answer yes/no only"
-            fi
+RED=$'\e[31m'; GREEN=$'\e[32m'; YELLOW=$'\e[33m'; CYAN=$'\e[36m'; BOLD=$'\e[1m'; RESET=$'\e[0m'
+LINE="------------------------------------------"
 
-    elif [[ "$option" == 2 ]]; then
-        echo " Are you sure?"
-        read -p " yes/no "  confirm
-            if [[ "$confirm" == "yes" || "$confirm" == "y" ]]; then
-                echo " Type your password"
-                sudo systemctl reboot
-            elif [[ "$confirm" == "no" || "$confirm" == "n" ]]; then
-                echo " You cancel the reboot"
-            else 
-                echo " Please answer only yes/no "
-            fi
+confirm() {
+    read -p " Are you sure? (yes/no) " answer
+    case "$answer" in
+        yes|y) return 0 ;;
+        no|n)  echo " ${YELLOW}Cancelled, phew.${RESET}"; return 1 ;;
+        *)     echo " Please answer yes/no only"; return 1 ;;
+    esac
+}
 
-    elif [[ "$option" == 3 ]]; then
-        echo "------------------------------------------"
-        cat /etc/os-release
-        echo "------------------------------------------"
-    elif [[ "$option" == 4  ]]; then
-        echo "------------------------------------------"
-        fastfetch 
-        echo "------------------------------------------"
-    elif [[ "$option" == 5 ]]; then
-        echo "$(uptime -p)"
-        echo "$(free -h)"
-        echo "$(df -h /)"
+show_menu() {
+    echo
+    echo "${BOLD}${CYAN} Hello $USER, what you want to do?${RESET}"
+    echo " 1. Shutdown OS"
+    echo " 2. Reboot OS"
+    echo " 3. OS release"
+    echo " 4. Flex your OS!"
+    echo " 5. Checking resource usage"
+    echo " 0. Quit"
+}
+
+flex_os() {
+    if command -v fastfetch >/dev/null; then
+        fastfetch
+    elif command -v neofetch >/dev/null; then
+        neofetch
     else
-        echo " Plase select only 1/2/3/4/5"
+        echo " No fastfetch installed, so here's the basics:"
+        echo " Kernel: $(uname -sr)"
+        echo " Shell:  $SHELL"
+        echo " Host:   $(hostname)"
     fi
+}
+
+while true; do
+    show_menu
+    read -p " Choose your option: " option
+    echo
+    case "$option" in
+        1) confirm && { echo " Type your password"; sudo systemctl poweroff; } ;;
+        2) confirm && { echo " Type your password"; sudo systemctl reboot; } ;;
+        3) echo "$LINE"; cat /etc/os-release; echo "$LINE" ;;
+        4) echo "$LINE"; flex_os; echo "$LINE" ;;
+        5) uptime -p; free -h; df -h / ;;
+        0|q|quit) echo " ${CYAN}Bye $USER!${RESET}"; exit 0 ;;
+        *) echo " ${RED}Please select only 0-5${RESET}" ;;
+    esac
+done
